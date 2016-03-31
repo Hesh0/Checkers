@@ -1,11 +1,14 @@
+extern crate gl;
 extern crate glfw;
 
+use gl::types::*;
 use glfw::{Action, Context, Key, Window, WindowMode, WindowEvent};
 
-fn main() {
+fn main()
+{
     let width = 900;
     let height = width / 16 * 9;
-    let title = "Mesh Checkers";
+    let title = "Checkers";
 
     let mut glfw = glfw::init(glfw::FAIL_ON_ERRORS).unwrap();
     let (mut window, events) = glfw.create_window(width, height, title, WindowMode::Windowed)
@@ -13,6 +16,9 @@ fn main() {
 
     window.set_key_polling(true);
     window.make_current();
+
+    // load OpenGL functions.
+    gl::load_with(|s| window.get_proc_address(s) as *const _);
 
     while !window.should_close() {
         glfw.poll_events();
